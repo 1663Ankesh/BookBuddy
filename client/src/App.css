@@ -1,0 +1,1083 @@
+body {
+  /* background: linear-gradient(to right, #f8f853, #37fc37); */
+  background-color: #eaeadb;
+  min-height: 100vh;
+}
+
+.homepage {
+  /* display: grid; */
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 0px;
+  min-height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+.books {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.books:hover,
+.book:hover,
+.bookingreceipt:hover,
+.bookings .booking:hover {
+  transform: translateY(-5px);
+  box-shadow: 10px 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.books img {
+  border: 2px solid black;
+}
+
+.bookimage {
+  width: 100px;
+  height: 320px;
+  border-radius: 8px;
+}
+
+.booktitle span {
+  font-size: 25px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.author span,
+.edition span,
+.genre span,
+.condition span,
+.mrp span,
+.ownername,
+.ownerphn,
+.ownerplace,
+.ownerstate,
+.ownerpincode {
+  font-size: 15px;
+  color: black;
+  font-weight: 700;
+  margin-top: 5px;
+}
+
+.downblock {
+  display: flex;
+  justify-content: space-between;
+}
+
+.downblock .left {
+  margin-right: 10px;
+}
+.navbar {
+  margin: 0;
+  position: sticky;
+  top: 0;
+  background-color: rgb(47, 164, 253);
+  width: auto;
+  height: auto;
+  color: white;
+  font-size: 20px;
+  font-family: sans;
+  display: flex;
+  flex-direction: row;
+  /* justify-content: space-between; */
+  align-items: center;
+  flex-wrap: wrap;
+  text-decoration: none;
+  list-style-type: none;
+  z-index: 5;
+}
+
+.navbarleft,
+.navbarleft2 {
+  display: flex;
+}
+
+.navbar li {
+  padding: 10px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.navbar li:hover {
+  background-color: rgb(47, 109, 253);
+  transition: 0.4s;
+}
+
+.footer {
+  position: static;
+  bottom: 0;
+  margin-bottom: 0;
+  background-color: rgb(47, 164, 253);
+  color: white;
+  font-size: 15px;
+  font-family: sans;
+  display: block;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0px;
+  width: 100%;
+}
+
+.footer_1 {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.footer_2 {
+  text-align: center;
+}
+
+.loginpage,
+.signuppage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.loginpage .form,
+.signuppage .form {
+  background-color: #f9f9f9;
+  padding: 20px;
+  font-family: "Times New Roman", Times, serif;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 40%;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.loginpage .form {
+  width: 60%;
+}
+
+.signuppage .form {
+  width: 80%;
+  margin: 20px;
+}
+
+.loginpage .form:hover,
+.signuppage .form:hover {
+  box-shadow: 10px 10px 10px 10px rgb(76, 75, 75);
+  transition: 0.2s;
+}
+
+.loginpage .field,
+.signuppage .field,
+.addbook .field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.loginpage .field label,
+.signuppage .field label,
+.addbook .field label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+  width: 25%;
+}
+
+.loginpage .field input[type="password"],
+.loginpage .field input[type="email"],
+.signuppage .field input[type="text"],
+.signuppage .field input[type="number"],
+.signuppage .field input[type="password"],
+.signuppage .field input[type="email"],
+.updateform .field input,
+.addbook .field input,
+.addbook .field select {
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-left: 10px;
+  outline: none;
+  width: 75%;
+  border-color: black;
+}
+
+.loginpagesignup,
+.signuppagelogin {
+  margin-top: 20px;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.loginpage .form {
+  padding: 20px;
+  width: 60%;
+}
+
+.submit-btn {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: #0056b3;
+  transition: 0.2s;
+}
+
+.formbtns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.formheading {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.loginpagesignup {
+  font-size: 20px;
+}
+
+.signuppagelogin,
+.loginpagesignup {
+  margin: 10px 0;
+}
+
+.loginpagesignup,
+.signuppagelogin {
+  margin-top: 20px;
+}
+
+.gotosignup,
+.gotologin {
+  background-color: #28a745;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.gotosignup:hover,
+.gotologin:hover {
+  background-color: #218838;
+  transition: 0.2s;
+}
+
+.gotologin,
+.gotosignup {
+  padding: 7px 8px;
+}
+
+.bookbackground {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.book {
+  display: flex;
+  border: 2px solid black;
+  margin: auto;
+  max-width: 1000px;
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 20px;
+  background-color: whitesmoke;
+}
+
+.book img,
+.lendedbackground .homepage .books img,
+.receiptdiv1 img,
+.bookings .booking img {
+  width: 200px;
+  height: auto;
+  border-radius: 8px;
+  border: 2px solid black;
+  border-radius: 20px;
+  margin-right: 40px;
+}
+
+.bookdetailsparent {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  font-family: "Times New Roman", Times, serif;
+  margin: 10px 20px;
+}
+
+.bookdetails div {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.bookdetails span {
+  font-size: 25px;
+}
+
+.bookownerdetails {
+  margin: 20px 40px;
+}
+
+.bookownerdetails div {
+  font-size: 20px;
+  font-weight: 200;
+}
+
+.bookbuttondiv {
+  width: 30%;
+  margin: auto;
+  align-items: center;
+  text-align: center;
+}
+
+.lendedbackground {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.lendedbackground .homepage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: auto;
+}
+
+.lendedbackground .homepage .books {
+  display: flex;
+  align-items: center;
+  width: 60%;
+  margin: auto;
+  margin-top: 20px;
+  border-radius: 20px;
+  border: 2px solid black;
+  background-color: whitesmoke;
+}
+
+.lendedbookdetails {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 20px;
+}
+
+.lendedbookdetails div {
+  margin: 15px 0;
+}
+
+.booking {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.bookingreceiptbackground {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bookingreceipt {
+  background-color: white;
+  border-radius: 20px;
+  border: 2px solid black;
+  display: flex;
+  flex-direction: column;
+}
+
+.receiptdiv1,
+.receiptdiv2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.div1details div,
+.receiptdiv2 div {
+  margin: 10px;
+  font-weight: 200;
+  font-size: 18px;
+}
+
+.div1details span,
+.receiptdiv2 span {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.bookingbackground {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.bookings {
+  display: flex;
+  flex-direction: column;
+  justify-content: justify;
+  align-items: center;
+  width: 100%;
+}
+
+.bookings .booking {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 20px;
+  font-size: 20px;
+  font-family: "Times New Roman", Times, serif;
+  padding: 10px;
+  width: auto;
+  cursor: pointer;
+}
+
+.bookings .booking .bookingdetails {
+  margin-right: 20px;
+  font-size: 20px;
+}
+
+.bookings .booking .bookingdetails div {
+  margin: 15px 0;
+}
+
+.bookings .booking .bookingdetails div span {
+  font-weight: bold;
+}
+
+.userrootdiv {
+  min-height: 100vh;
+  font-family: "Arial", sans-serif;
+}
+
+.userpage {
+  max-width: 600px;
+  margin: 50px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid black;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.username,
+.email,
+.phone,
+.place,
+.state,
+.pincode {
+  margin-bottom: 15px;
+}
+
+.toupdate button {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 10px;
+}
+
+.updatebtn:hover,
+.backbtn:hover,
+.toupdate button:hover {
+  background-color: #45a049;
+}
+
+.updateformbackground {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.updateform {
+  background-color: #f9f9f9;
+  padding: 20px;
+  font-family: "Times New Roman", Times, serif;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 60%;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.updateform:hover {
+  box-shadow: 10px 10px 10px 10px rgb(76, 75, 75);
+  transition: 0.2s;
+}
+
+.updateform .field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+.updateform .field label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+  width: 25%;
+}
+
+.updatebtn,
+.backbtn {
+  background-color: #139e17;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.updatebtn:hover,
+.backbtn:hover,
+.toupdate button:hover {
+  background-color: #175e1a;
+}
+
+.addbookbackground {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 40px 0;
+  min-height: 100vh;
+}
+
+.addbook button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.addbook .submitbtn,
+.addbook .back_btn {
+  text-align: center;
+  margin: 20px 20px 0;
+}
+
+.addbook button:hover {
+  background-color: #45a049;
+}
+
+.mybookspage {
+  display: flex;
+  flex-direction: column;
+}
+.addbookbtn {
+  display: block;
+  margin: auto;
+  padding: 0 30px;
+}
+.addbookbtn button {
+  padding: 0 30px;
+}
+
+.booktitle,
+.author,
+.edition,
+.genre,
+.condition,
+.mrp,
+.ownername,
+.ownerphn,
+.ownerplace,
+.ownerstate,
+.ownerpincode {
+  margin-bottom: 10px;
+}
+
+.bookbtn,
+.cannotbookbtn,
+.bookbuttondiv .loginbtn,
+.updatebook {
+  cursor: pointer;
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-top: 20px;
+  transition: background-color 0.3s;
+}
+
+.bookbtn:hover {
+  background-color: #45a049;
+}
+
+.bookbuttondiv .loginbtn {
+  background-color: #2da8f5;
+}
+
+.bookbuttondiv .loginbtn:hover {
+  background-color: rgb(47, 109, 253);
+}
+
+.cannotbookbtn {
+  background-color: #f44336;
+}
+
+.cannotbookbtn:hover {
+  background-color: #d32f2f;
+}
+
+.addbook {
+  background-color: #f9f9f9;
+  padding: 20px;
+  font-family: "Times New Roman", Times, serif;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 40%;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.addbook:hover {
+  box-shadow: 10px 10px 10px 10px rgb(76, 75, 75);
+  transition: 0.2s;
+}
+
+.books {
+  width: 250px;
+  margin: 20px;
+  padding: 15px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.books:hover {
+  transform: translateY(-5px);
+}
+
+.bookimage {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.booktitle {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.addbookbtn {
+  margin-top: 20px;
+}
+
+.addbookbtn button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.addbookbtn button:hover {
+  background-color: #0056b3;
+}
+
+.bookblock {
+  min-height: 100vh;
+  margin-bottom: 20px;
+}
+
+.updatebook {
+  background-color: rgb(252, 154, 26);
+}
+
+.updatebook:hover {
+  background-color: rgb(188, 111, 10);
+}
+
+.not-found-container {
+  min-height: 100vh;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  margin: auto;
+  justify-content: center;
+}
+
+.not-found-list {
+  text-decoration: none;
+  list-style-type: none;
+}
+
+.not-found-content ul li,
+.not-found-content p {
+  font-size: 20px;
+}
+
+.dropdown {
+  list-style-type: none;
+  margin-top: 0;
+  margin-left: auto;
+  position: absolute;
+  top: auto;
+  left: 0;
+  width: 100%;
+  border-radius: 4px;
+  opacity: 1;
+  transition: 1s;
+  z-index: 10;
+}
+
+.dropdown .navbarleft2,
+.dropdown .navbarright {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(47, 164, 253);
+  color: white;
+  width: 50%;
+}
+.dropdown .navbarleft2 li,
+.dropdown .navbarright li {
+  padding: 10px 10px;
+  font-family: "Times New Roman", Times, serif;
+  cursor: pointer;
+}
+.dropdown .navbarleft2 li:hover,
+.dropdown .navbarright li:hover {
+  background-color: rgb(47, 109, 253);
+  transition: 0.2s;
+}
+
+@media screen and (max-width: 1200px) {
+  .navbar {
+    font-size: 15px;
+  }
+
+  .books .booktitle span {
+    font-size: 18px;
+  }
+
+  .books span {
+    font-size: 15px;
+  }
+
+  .books .downblock {
+    flex-wrap: wrap;
+  }
+
+  .bookdetails div,
+  .bookdetails div span {
+    font-size: 18px;
+  }
+
+  .bookownerdetails div,
+  .bookownerdetails div span,
+  .div1details div,
+  .div1details span,
+  .bookbuyerdetails div,
+  .bookbuyerdetails span {
+    font-size: 16px;
+  }
+
+  .lendedbookdetails div,
+  .lendedbookdetails div span {
+    font-size: 15px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .navbar {
+    font-size: 12px;
+  }
+  .footer_1 {
+    display: flex;
+    flex-direction: column;
+    font-size: 15px;
+  }
+  .footer_1 div {
+    padding: 2.5px;
+  }
+  .take-books {
+    display: none;
+  }
+
+  .books {
+    width: 200px;
+  }
+
+  .books .booktitle span {
+    font-size: 15px;
+  }
+
+  .books span {
+    font-size: 12px;
+  }
+
+  .books img {
+    width: 200px;
+    height: 250px;
+  }
+
+  .books div {
+    margin: 0;
+  }
+  .footer_1 {
+    display: flex;
+    flex-direction: column;
+    font-size: 15px;
+  }
+  .footer_1 div {
+    padding: 2.5px;
+  }
+  .bookdetails div,
+  .bookdetails div span {
+    font-size: 15px;
+  }
+
+  .book {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .bookownerdetails div,
+  .bookownerdetails div span {
+    font-size: 14px;
+  }
+
+  .lendedbackground .homepage .books img {
+    height: 200px;
+  }
+
+  .lendedbackground .homepage .books {
+    width: 75%;
+  }
+
+  .lendedbackground .homepage .books .lendedbookdetails div {
+    margin-top: 5px;
+  }
+
+  .bookings .booking img {
+    height: 200px;
+    width: 150px;
+  }
+
+  .bookings .booking div,
+  .bookings .booking span {
+    font-size: 15px;
+  }
+
+  .div1details div,
+  .div1details span,
+  .bookbuyerdetails div,
+  .bookbuyerdetails span {
+    font-size: 14px;
+  }
+
+  .loginpage .form {
+    padding: 20px;
+    width: 80%;
+  }
+
+  .forgotpassword .formheading {
+    font-size: 20px;
+  }
+
+  .forgotpassword .field label,
+  .forgotpassword .field input {
+    font-size: 15px;
+  }
+
+  .signuppage .form .formheading {
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 583px) {
+  .navbarleft li,
+  .navbarleft2 li {
+    margin: 0;
+  }
+
+  .books {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
+  .books .book-otherinfo {
+    margin-right: 20px;
+  }
+
+  .book-otherinfo .downblock {
+    display: block;
+  }
+
+  .books .booktitle span {
+    font-size: 18px;
+  }
+
+  .books {
+    padding-right: 0;
+  }
+  .book-otherinfo div {
+    font-size: 15px;
+    margin: 12px 0px 12px 10px;
+  }
+
+  .books .downblock {
+    margin-left: 10px;
+  }
+
+  .downblock .left,
+  .downblock .right,
+  .downblock .left div,
+  .downblock .right div {
+    margin: 0;
+  }
+
+  .books img {
+    height: 180px;
+    width: 120px;
+    margin: 0;
+  }
+
+  .book img {
+    height: 250px;
+    width: 200px;
+  }
+
+  .book,
+  .bookdetailsparent {
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .lendedbackground .homepage .books {
+    display: flex;
+    flex-wrap: wrap;
+    width: 90%;
+  }
+
+  .lendedbackground .homepage .books img {
+    height: 150px;
+    width: 120px;
+  }
+
+  .lendedbackground .homepage .books div,
+  .lendedbackground .homepage .books span {
+    font-size: 12px;
+  }
+
+  .lendedbackground .homepage .books .lendedbookdetails {
+    margin-top: 10px;
+    margin-right: 10px;
+  }
+
+  .lendedbackground .homepage .books .lendedbookdetails div {
+    margin-top: 5px;
+  }
+
+  .bookings .booking img {
+    height: 150px;
+    width: 120px;
+    justify-content: center;
+  }
+
+  .bookings .booking div,
+  .bookings .booking span {
+    font-size: 12px;
+  }
+
+  .bookings .booking {
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .bookingreceipt .receiptdiv1,
+  .bookingreceipt .receiptdiv2 {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+
+  .loginpage .form {
+    padding: 10px;
+    width: 90%;
+  }
+
+  .loginpage .form .field label {
+    font-size: 15px;
+  }
+  .loginpage .form .field input {
+    font-size: 12px;
+  }
+
+  .forgotpassword .formheading {
+    font-size: 18px;
+  }
+
+  .forgotpassword .field label {
+    font-size: 15px;
+  }
+
+  .forgotpassword .field input {
+    font-size: 12px;
+  }
+
+  .signuppage .form .formheading {
+    font-size: 15px;
+  }
+
+  .signuppage .form .field label {
+    font-size: 15px;
+  }
+
+  .signuppage .form .field input {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .signuppage .form .field,
+  .loginpage .form .field {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+  .signuppage .form .field label,
+  .loginpage .form .field label {
+    width: 100%;
+  }
+}
