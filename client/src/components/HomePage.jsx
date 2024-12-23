@@ -12,7 +12,7 @@ const HomePage = () => {
   const [books, setBooks] = useState([]);
 
   async function getdata() {
-    let result = await fetch(process.env.React_App_Host_Api + "/", {
+    let result = await fetch(process.env.React_App_Host_Api + "/api/", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

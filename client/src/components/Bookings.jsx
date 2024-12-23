@@ -18,7 +18,7 @@ const Bookings = () => {
 
   async function getdata() {
     let result = await fetch(
-      process.env.React_App_Host_Api + `/${id}/bookings`,
+      process.env.React_App_Host_Api + `/api/user/${id}/bookings`,
       {
         method: "GET",
         headers: {

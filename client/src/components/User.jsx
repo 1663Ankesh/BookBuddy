@@ -29,13 +29,16 @@ const User = () => {
       if (!isuser || !curruseremail || !curruser || !id) {
         navigate("/");
       } else {
-        let result = await fetch(process.env.React_App_Host_Api + `/${id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        });
+        let result = await fetch(
+          process.env.React_App_Host_Api + `/api/user/${id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+          }
+        );
 
         result = await result.json();
 
@@ -52,7 +55,7 @@ const User = () => {
   }
 
   async function update() {
-    let result = await fetch(process.env.React_App_Host_Api + `/${id}`, {
+    let result = await fetch(process.env.React_App_Host_Api + `/api/user/${id}`, {
       method: "POST",
       body: JSON.stringify({
         curruseremail,

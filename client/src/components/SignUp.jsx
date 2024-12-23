@@ -22,7 +22,7 @@ const Signup = () => {
   }, [curruser, curruseremail, isuser, id]);
 
   async function handleSubmit() {
-    let result = await fetch(process.env.React_App_Host_Api + "/signup", {
+    let result = await fetch(process.env.React_App_Host_Api + "/api/user/signup", {
       method: "POST",
       body: JSON.stringify({
         username,

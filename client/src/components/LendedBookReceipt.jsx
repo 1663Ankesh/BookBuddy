@@ -25,7 +25,7 @@ const LendedBookReceipt = () => {
   async function getdata() {
     let result = await fetch(
       process.env.React_App_Host_Api +
-        `/${params.id}/lendedbookreceipt/${params.id1}`,
+        `/api/user/${params.id}/lendedbookreceipt/${params.id1}`,
       {
         method: "GET",
         headers: {

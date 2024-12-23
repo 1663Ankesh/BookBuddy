@@ -30,7 +30,7 @@ const MyBooks = () => {
 
   async function getdata() {
     let result = await fetch(
-      process.env.React_App_Host_Api + `/${params.id}/mybooks`,
+      process.env.React_App_Host_Api + `/api/user/${params.id}/mybooks`,
       {
         method: "GET",
         headers: {
@@ -61,6 +61,7 @@ const MyBooks = () => {
             return (
               <div
                 className="books"
+                key={id}
                 onClick={() => navigate(`/book/${value._id}`)}
               >
                 <img

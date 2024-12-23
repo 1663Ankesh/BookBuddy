@@ -18,7 +18,7 @@ const Book = () => {
 
   async function getdata() {
     let result = await fetch(
-      process.env.React_App_Host_Api + `/book/${params.id}`,
+      process.env.React_App_Host_Api + `/api/book/${params.id}`,
       {
         method: "GET",
         headers: {
@@ -44,7 +44,7 @@ const Book = () => {
     console.log(id, owner_id);
 
     let result = await fetch(
-      process.env.React_App_Host_Api + `/book/${params.id}`,
+      process.env.React_App_Host_Api + `/api/book/${params.id}`,
       {
         method: "POST",
         body: JSON.stringify({ id, owner_id }),

@@ -24,7 +24,7 @@ const Booking = () => {
 
   async function getdata() {
     let result = await fetch(
-      process.env.React_App_Host_Api + `/${params.id}/bookings/${params.id1}`,
+      process.env.React_App_Host_Api + `/api/user/${params.id}/bookings/${params.id1}`,
       {
         method: "GET",
         headers: {

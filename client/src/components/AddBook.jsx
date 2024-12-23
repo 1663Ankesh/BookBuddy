@@ -46,7 +46,7 @@ const AddBook = () => {
     formData.append("img", img);
     formData.append("curruseremail", curruseremail);
 
-    let result = await fetch(process.env.React_App_Host_Api + "/addbook", {
+    let result = await fetch(process.env.React_App_Host_Api + "/api/user/addbook", {
       method: "POST",
       body: formData,
       // headers: {

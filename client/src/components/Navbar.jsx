@@ -32,7 +32,7 @@ const Navbar = () => {
 
   async function profile() {
     let result = await fetch(process.env.React_App_Host_Api + "/profile", {
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },

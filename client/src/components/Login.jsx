@@ -8,8 +8,8 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("1663ankesh@gmail.com");
-  const [pwd, setPwd] = useState("abc");
+  const [email, setEmail] = useState("");
+  const [pwd, setPwd] = useState("");
 
   useEffect(() => {
     if (curruser) {
@@ -18,7 +18,7 @@ const Login = () => {
   }, [curruser, curruseremail, isuser]);
 
   async function handleSubmit() {
-    let result = await fetch(process.env.React_App_Host_Api + "/login", {
+    let result = await fetch(process.env.React_App_Host_Api + "/api/user/login", {
       method: "POST",
       body: JSON.stringify({ email, pwd }),
       headers: {
