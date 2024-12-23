@@ -47,8 +47,10 @@ mongoose
   });
 
 const userRoutes = require("./routes/userRoutes");
+const bookRoutes = require("./routes/bookRoutes");
 
 app.use("/api/user/", userRoutes);
+app.use("/api/book", bookRoutes);
 
 app.get("/api/", async (req, res) => {
   try {
@@ -61,6 +63,50 @@ app.get("/api/", async (req, res) => {
 
     res.status(500).json({ error: "Server error" });
   }
+});
+
+app.get("/profile", (req, res) => {
+  try {
+    const { token } = req.cookies;
+    console.log(token);
+
+    jwt.verify(token, secretKey, {}, (err, info) => {
+      if (err) {
+        res
+          .cookie("token", " ", {
+            sameSite: "None",
+            secure: true,
+            expire: new Date(0),
+          })
+          .status(200)
+          .json({ error: "JWT error" });
+      } else {
+        res.status(200).json(info);
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(501).json({ error: "Server Error" });
+  }
+});
+
+app.post("/logout", async (req, res) => {
+  try {
+    res
+      .cookie("token", " ", {
+        sameSite: "None",
+        secure: true,
+        expire: new Date(0),
+      })
+      .status(200)
+      .json("ok");
+  } catch (e) {
+    res.status(501).json({ error: "Server Error" });
+  }
+});
+
+app.listen(port, () => {
+  console.log(`Listening at port ${port}`);
 });
 
 // app.post("/api/user/signup", async (req, res) => {
@@ -150,46 +196,6 @@ app.get("/api/", async (req, res) => {
 //   }
 // });
 
-app.post("/logout", async (req, res) => {
-  try {
-    res
-      .cookie("token", " ", {
-        sameSite: "None",
-        secure: true,
-        expire: new Date(0),
-      })
-      .status(200)
-      .json("ok");
-  } catch (e) {
-    res.status(501).json({ error: "Server Error" });
-  }
-});
-
-app.get("/profile", (req, res) => {
-  try {
-    const { token } = req.cookies;
-    console.log(token);
-
-    jwt.verify(token, secretKey, {}, (err, info) => {
-      if (err) {
-        res
-          .cookie("token", " ", {
-            sameSite: "None",
-            secure: true,
-            expire: new Date(0),
-          })
-          .status(200)
-          .json({ error: "JWT error" });
-      } else {
-        res.status(200).json(info);
-      }
-    });
-  } catch (e) {
-    console.log(e);
-    res.status(501).json({ error: "Server Error" });
-  }
-});
-
 // app.post("/api/user/forgotpassword", async (req, res) => {
 //   try {
 //     const { email, pwd } = req.body;
@@ -218,28 +224,28 @@ app.get("/profile", (req, res) => {
 //   }
 // });
 
-app.get("/api/book/:id", async (req, res) => {
-  try {
-    let id = req.params.id;
+// app.get("/api/book/:id", async (req, res) => {
+//   try {
+//     let id = req.params.id;
 
-    let result = await Books.findOne({ _id: id });
-    let owner = await Users.findOne({ _id: result.ownerId });
+//     let result = await Books.findOne({ _id: id });
+//     let owner = await Users.findOne({ _id: result.ownerId });
 
-    owner = {
-      owner_id: owner._id,
-      owner_name: owner.username,
-      owner_phn: owner.phn,
-      owner_place: owner.place,
-      owner_state: owner.state,
-      owner_pincode: owner.pincode,
-    };
+//     owner = {
+//       owner_id: owner._id,
+//       owner_name: owner.username,
+//       owner_phn: owner.phn,
+//       owner_place: owner.place,
+//       owner_state: owner.state,
+//       owner_pincode: owner.pincode,
+//     };
 
-    res.status(200).json({ result, owner });
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({ error: "Server Error" });
-  }
-});
+//     res.status(200).json({ result, owner });
+//   } catch (e) {
+//     console.log(e);
+//     res.status(500).json({ error: "Server Error" });
+//   }
+// });
 
 // app.get("/api/user/:id/mybooks", async (req, res) => {
 //   try {
@@ -259,21 +265,21 @@ app.get("/api/book/:id", async (req, res) => {
 //   }
 // });
 
-const corsOptions = {
-  origin: allowedOrigins,
-  credentials: true,
-};
+// const corsOptions = {
+//   origin: allowedOrigins,
+//   credentials: true,
+// };
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "../client/public/images");
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "../client/public/images");
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, file.originalname);
+//   },
+// });
 
-const upload = multer({ storage: storage }).single("img");
+// const upload = multer({ storage: storage }).single("img");
 
 // app.post("/api/user/addbook", cors(corsOptions), async (req, res) => {
 //   try {
@@ -348,43 +354,43 @@ const upload = multer({ storage: storage }).single("img");
 //   }
 // });
 
-app.post("/api/book/:id", async (req, res) => {
-  try {
-    const { token } = req.cookies;
+// app.post("/api/book/:id", async (req, res) => {
+//   try {
+//     const { token } = req.cookies;
 
-    jwt.verify(token, secretKey, {}, async (err, info) => {
-      if (err) throw err;
+//     jwt.verify(token, secretKey, {}, async (err, info) => {
+//       if (err) throw err;
 
-      const bookid = req.params.id;
-      const ownerid = req.body.owner_id;
-      const buyerid = req.body.id;
+//       const bookid = req.params.id;
+//       const ownerid = req.body.owner_id;
+//       const buyerid = req.body.id;
 
-      const dateofbooking = new Date();
-      const timeofbooking = gettime();
+//       const dateofbooking = new Date();
+//       const timeofbooking = gettime();
 
-      const newbooking = new Bookings({
-        bookid,
-        ownerid,
-        buyerid,
-        dateofbooking,
-        timeofbooking,
-      });
+//       const newbooking = new Bookings({
+//         bookid,
+//         ownerid,
+//         buyerid,
+//         dateofbooking,
+//         timeofbooking,
+//       });
 
-      await newbooking.save();
+//       await newbooking.save();
 
-      await Books.findOneAndUpdate(
-        { _id: bookid },
-        { isbooked: true },
-        { new: true }
-      );
+//       await Books.findOneAndUpdate(
+//         { _id: bookid },
+//         { isbooked: true },
+//         { new: true }
+//       );
 
-      res.status(200).json({ message: "Booked" });
-    });
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({ error: "Server Error" });
-  }
-});
+//       res.status(200).json({ message: "Booked" });
+//     });
+//   } catch (e) {
+//     console.log(e);
+//     res.status(500).json({ error: "Server Error" });
+//   }
+// });
 
 // function gettimeahead() {
 //   const now = new Date();
@@ -610,86 +616,83 @@ app.post("/api/book/:id", async (req, res) => {
 //   }
 // });
 
-app.get("/api/book/:id/update", async (req, res) => {
-  try {
-    const { token } = req.cookies;
+// app.get("/api/book/:id/update", async (req, res) => {
+//   try {
+//     const { token } = req.cookies;
 
-    jwt.verify(token, secretKey, {}, async (err, info) => {
-      if (err) throw err;
-      let id = req.params.id;
+//     jwt.verify(token, secretKey, {}, async (err, info) => {
+//       if (err) throw err;
+//       let id = req.params.id;
 
-      let result = await Books.findOne({ _id: id });
+//       let result = await Books.findOne({ _id: id });
 
-      res.status(200).json(result);
-    });
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({ error: "Server Error" });
-  }
-});
+//       res.status(200).json(result);
+//     });
+//   } catch (e) {
+//     console.log(e);
+//     res.status(500).json({ error: "Server Error" });
+//   }
+// });
 
-app.post("/api/book/:id/update", cors(corsOptions), async (req, res) => {
-  try {
-    const { token } = req.cookies;
-    jwt.verify(token, secretKey, {}, async (err, info) => {
-      if (err) throw err;
-      let id = req.params.id;
+// app.post("/api/book/:id/update", cors(corsOptions), async (req, res) => {
+//   try {
+//     const { token } = req.cookies;
+//     jwt.verify(token, secretKey, {}, async (err, info) => {
+//       if (err) throw err;
+//       let id = req.params.id;
 
-      upload(req, res, async function (err) {
-        if (err) {
-          return res.status(500).json({ error: "Error uploading file" });
-        }
+//       upload(req, res, async function (err) {
+//         if (err) {
+//           return res.status(500).json({ error: "Error uploading file" });
+//         }
 
-        const { booktitle, edition, author, genre, condition, mrp } = req.body;
-        if (!booktitle || !edition || !author || !genre || !condition || !mrp) {
-          res.json({ error: "Fill Up the Form" });
-        } else {
-          let result = await Books.findOneAndUpdate(
-            { _id: id },
-            {
-              $set: {
-                booktitle: req.body.booktitle,
-                edition: req.body.edition,
-                author: req.body.author,
-                genre: req.body.genre,
-                condition: req.body.condition,
-                mrp: req.body.mrp,
-              },
-            }
-          );
+//         const { booktitle, edition, author, genre, condition, mrp } = req.body;
+//         if (!booktitle || !edition || !author || !genre || !condition || !mrp) {
+//           res.json({ error: "Fill Up the Form" });
+//         } else {
+//           let result = await Books.findOneAndUpdate(
+//             { _id: id },
+//             {
+//               $set: {
+//                 booktitle: req.body.booktitle,
+//                 edition: req.body.edition,
+//                 author: req.body.author,
+//                 genre: req.body.genre,
+//                 condition: req.body.condition,
+//                 mrp: req.body.mrp,
+//               },
+//             }
+//           );
 
-          if (req.file) {
-            const updateImageFilenames = async (fieldName) => {
-              const filename = req.file.originalname;
-              const newFilename = `${id}_img.jpg`;
-              console.log("Old filename ", filename);
-              fs.rename(
-                path.join("../client/public/images", filename),
-                path.join("../client/public/images", newFilename),
-                (err) => {
-                  if (err) throw err;
-                  console.log(`${filename} renamed to ${newFilename}`);
-                }
-              );
-              return newFilename;
-            };
+//           if (req.file) {
+//             const updateImageFilenames = async (fieldName) => {
+//               const filename = req.file.originalname;
+//               const newFilename = `${id}_img.jpg`;
+//               console.log("Old filename ", filename);
+//               fs.rename(
+//                 path.join("../client/public/images", filename),
+//                 path.join("../client/public/images", newFilename),
+//                 (err) => {
+//                   if (err) throw err;
+//                   console.log(`${filename} renamed to ${newFilename}`);
+//                 }
+//               );
+//               return newFilename;
+//             };
 
-            const imageFilename = await updateImageFilenames("img");
+//             const imageFilename = await updateImageFilenames("img");
 
-            await Books.findByIdAndUpdate(id, {
-              img: imageFilename,
-            });
-          }
-          res.status(200).json(result);
-        }
-      });
-    });
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({ error: "Server Error" });
-  }
-});
+//             await Books.findByIdAndUpdate(id, {
+//               img: imageFilename,
+//             });
+//           }
+//           res.status(200).json(result);
+//         }
+//       });
+//     });
+//   } catch (e) {
+//     console.log(e);
+//     res.status(500).json({ error: "Server Error" });
+//   }
+// });
 
-app.listen(port, () => {
-  console.log(`Listening at port ${port}`);
-});
