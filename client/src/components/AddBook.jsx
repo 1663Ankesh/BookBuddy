@@ -35,7 +35,9 @@ const AddBook = () => {
     setImg(file);
   };
 
-  async function handleSubmit() {
+  async function handleSubmit(e) {
+    e.preventDefault();
+
     let formData = new FormData();
     formData.append("booktitle", booktitle);
     formData.append("edition", edition);
@@ -46,28 +48,35 @@ const AddBook = () => {
     formData.append("img", img);
     formData.append("curruseremail", curruseremail);
 
-    let result = await fetch(process.env.React_App_Host_Api + "/api/user/addbook", {
-      method: "POST",
-      body: formData,
-      // headers: {
-      //   "Content-Type": "application/json",
-      // },
-      credentials: "include",
-    });
+    let result = await fetch(
+      process.env.React_App_Host_Api + "/api/user/addbook",
+      {
+        method: "POST",
+        body: formData,
+        // headers: {
+        //   "Content-Type": "application/json",
+        // },
+        credentials: "include",
+      }
+    );
     result = await result.json();
     if (result.error) {
       alert(result.error);
+      if (result.donavigate & (result.donavigate === true)) navigate("/");
+
+      return;
     } else {
       alert("Book Added");
-      navigate("/");
+      navigate(`/book/${result._id}`);
     }
   }
 
   return (
     <>
       <div className="addbookbackground">
-        <div className="addbook">
+        <form className="addbook" onSubmit={handleSubmit}>
           <div className="formheading">Add Your Book Here</div>
+
           <div className="field">
             <span>Title : </span>
             <input
@@ -78,6 +87,7 @@ const AddBook = () => {
               required
             />
           </div>
+
           <div className="field">
             <span>Edition :</span>
             <input
@@ -88,6 +98,7 @@ const AddBook = () => {
               required
             />
           </div>
+
           <div className="field">
             <span>Author : </span>
             <input
@@ -98,6 +109,7 @@ const AddBook = () => {
               required
             />
           </div>
+
           <div className="field">
             <span>Genre : </span>
             <input
@@ -108,6 +120,7 @@ const AddBook = () => {
               required
             />
           </div>
+
           <div className="field">
             <span>Condition : </span>
             <select
@@ -123,6 +136,7 @@ const AddBook = () => {
               <option value="little torn">Little Torn</option>
             </select>
           </div>
+
           <div className="field">
             <span>MRP : </span>
             <input
@@ -133,6 +147,7 @@ const AddBook = () => {
               required
             />
           </div>
+
           <div className="field image1">
             <span>Select Image :</span>
             <input
@@ -141,17 +156,22 @@ const AddBook = () => {
               name="img"
               accept=".jpg, .jpeg, .png"
               onChange={onImgChange}
+              required
             />
           </div>
+
           <div className="formbtns">
-            <div className="submitbtn" onClick={handleSubmit}>
-              <button>Submit</button>
+            <div className="submitbtn">
+              <button type="submit">Submit</button>
             </div>
+
             <div className="back_btn">
-              <button onClick={() => navigate(`/${id}`)}>Back</button>
+              <button type="button" onClick={() => navigate(`/${id}/mybooks`)}>
+                Back
+              </button>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </>
   );

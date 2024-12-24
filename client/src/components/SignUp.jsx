@@ -21,29 +21,34 @@ const Signup = () => {
     }
   }, [curruser, curruseremail, isuser, id]);
 
-  async function handleSubmit() {
-    let result = await fetch(process.env.React_App_Host_Api + "/api/user/signup", {
-      method: "POST",
-      body: JSON.stringify({
-        username,
-        pwd,
-        email,
-        phn,
-        place,
-        state,
-        pincode,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-    });
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    let result = await fetch(
+      process.env.React_App_Host_Api + "/api/user/signup",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          username,
+          pwd,
+          email,
+          phn,
+          place,
+          state,
+          pincode,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      }
+    );
 
     result = await result.json();
 
     if (result.error) {
       alert(result.error);
-      navigate("/");
+      if (result.donavigate & (result.donavigate === true)) navigate("/");
       return;
     } else {
       setCurruser(result.username);
@@ -53,8 +58,9 @@ const Signup = () => {
 
   return (
     <div className="signuppage">
-      <div className="form">
+      <form className="form" onSubmit={handleSubmit}>
         <div className="formheading">User Sign Up</div>
+
         <div className="field">
           <label htmlFor="user">Username : </label>
           <input
@@ -65,6 +71,7 @@ const Signup = () => {
             required
           />
         </div>
+
         <div className="field">
           {" "}
           <label>Email : </label>
@@ -141,24 +148,30 @@ const Signup = () => {
         <div className="formbtns">
           <div className="field">
             {" "}
-            <button type="submit" className="submit-btn" onClick={handleSubmit}>
+            <button type="submit" className="submit-btn">
               Submit
             </button>
           </div>
 
           <div className="field">
             <button
-              type="submit"
+              type="button"
               className="submit-btn"
-              onClick={() => (
-                setUsername(""), setEmail(""), setPhn(""), setpwd("")
-              )}
+              onClick={() => {
+                setUsername("");
+                setEmail("");
+                setPhn("");
+                setpwd("");
+                setPlace("");
+                setState("");
+                setPincode("");
+              }}
             >
               Reset
             </button>
           </div>
         </div>
-      </div>
+      </form>
       <div className="signuppagelogin">
         <span>
           Have an account :{" "}

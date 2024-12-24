@@ -17,20 +17,28 @@ const Login = () => {
     }
   }, [curruser, curruseremail, isuser]);
 
-  async function handleSubmit() {
-    let result = await fetch(process.env.React_App_Host_Api + "/api/user/login", {
-      method: "POST",
-      body: JSON.stringify({ email, pwd }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-    });
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    console.log(email, pwd);
+    let result = await fetch(
+      process.env.React_App_Host_Api + "/api/user/login",
+      {
+        method: "POST",
+        body: JSON.stringify({ email, pwd }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      }
+    );
 
     result = await result.json();
+
     if (result.error) {
       alert(result.error);
-      navigate("/");
+
+      if (result.donavigate & (result.donavigate === true)) navigate("/");
       return;
     }
 
@@ -40,8 +48,9 @@ const Login = () => {
 
   return (
     <div className="loginpage">
-      <div className="form">
+      <form className="form" onSubmit={handleSubmit}>
         <div className="formheading">User Log In</div>
+
         <div className="field">
           <label>Email : </label>
           <input
@@ -63,17 +72,22 @@ const Login = () => {
             required
           />
         </div>
+
         <div className="formbtns">
           <div className="field">
-            <button type="submit" className="submit-btn" onClick={handleSubmit}>
+            <button type="submit" className="submit-btn">
               Submit
             </button>
           </div>
+
           <div className="field">
             <button
-              type="submit"
+              type="button"
               className="submit-btn"
-              onClick={() => (setEmail(""), setPwd(""))}
+              onClick={() => {
+                setEmail("");
+                setPwd("");
+              }}
             >
               Reset
             </button>
@@ -81,7 +95,7 @@ const Login = () => {
 
           <div className="field">
             <button
-              type="submit"
+              type="button"
               className="submit-btn"
               onClick={() => navigate("/forgotpassword")}
             >
@@ -89,7 +103,7 @@ const Login = () => {
             </button>
           </div>
         </div>
-      </div>
+      </form>
 
       <div className="loginpagesignup">
         <span>

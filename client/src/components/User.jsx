@@ -54,28 +54,41 @@ const User = () => {
     }
   }
 
-  async function update() {
-    let result = await fetch(process.env.React_App_Host_Api + `/api/user/${id}`, {
-      method: "POST",
-      body: JSON.stringify({
-        curruseremail,
-        newname,
-        newphn,
-        newpwd,
-        newplace,
-        newstate,
-        newpincode,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-    });
+  async function update(e) {
+    e.preventDefault();
+
+    let result = await fetch(
+      process.env.React_App_Host_Api + `/api/user/${id}`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          curruseremail,
+          newname,
+          newphn,
+          newpwd,
+          newplace,
+          newstate,
+          newpincode,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      }
+    );
 
     result = await result.json();
-    alert("Updated");
-    setToupdate(!toupdate);
-    setCurruser(result.name);
+    if (result.error) {
+      alert(result.error);
+      if (result.donavigate && result.donavigate === true) navigate("/");
+
+      return;
+    } else {
+      alert("Updated");
+      setToupdate(!toupdate);
+      setCurruser(result.name);
+      
+    }
   }
 
   return (
@@ -114,8 +127,9 @@ const User = () => {
         </div>
       ) : (
         <div className="updateformbackground">
-          <div className="updateform">
+          <form className="updateform" onSubmit={update}>
             <div className="formheading">Update Your Profile</div>
+
             <div className="field formname">
               <label htmlFor="name">Name : </label>
               <input
@@ -125,6 +139,7 @@ const User = () => {
                 onChange={(e) => setnewname(e.target.value)}
               />
             </div>
+
             <div className="field formemail">
               <label htmlFor="name">Email : </label>
               <input
@@ -134,6 +149,7 @@ const User = () => {
                 value={curruseremail}
               />
             </div>
+
             <div className="field formphn">
               <label htmlFor="name">Phone : </label>
               <input
@@ -144,6 +160,7 @@ const User = () => {
                 onChange={(e) => setnewphn(e.target.value)}
               />
             </div>
+
             <div className="field formplace">
               <label htmlFor="name">Place : </label>
               <input
@@ -153,6 +170,7 @@ const User = () => {
                 onChange={(e) => setnewplace(e.target.value)}
               />
             </div>
+
             <div className="field formstate">
               <label htmlFor="name">State : </label>
               <input
@@ -162,6 +180,7 @@ const User = () => {
                 onChange={(e) => setnewstate(e.target.value)}
               />
             </div>
+
             <div className="field formpincode">
               <label htmlFor="name">Pincode : </label>
               <input
@@ -172,6 +191,7 @@ const User = () => {
                 onChange={(e) => setnewpincode(e.target.value)}
               />
             </div>
+
             <div className="field formpwd">
               <label htmlFor="name">New Password : </label>
               <input
@@ -181,15 +201,20 @@ const User = () => {
                 onChange={(e) => setnewpwd(e.target.value)}
               />
             </div>
+
             <div className="formbtns">
-              <div className="updatebtn" onClick={update}>
+              <button type="submit" className="updatebtn">
                 Update
-              </div>
-              <div className="backbtn" onClick={() => setToupdate(!toupdate)}>
+              </button>
+              <button
+                type="button"
+                className="backbtn"
+                onClick={() => setToupdate(!toupdate)}
+              >
                 Back
-              </div>
+              </button>
             </div>
-          </div>
+          </form>
         </div>
       )}
     </div>

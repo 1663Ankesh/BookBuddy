@@ -70,7 +70,7 @@ const Book = () => {
       <div className="bookblock">
         <div className="book">
           <img
-            src={`${process.env.PUBLIC_URL}/images/${book.img}`}
+            src={`${process.env.React_App_Host_Api}/uploads/${book.img}`}
             alt="PIC"
             className="bookimage"
           />

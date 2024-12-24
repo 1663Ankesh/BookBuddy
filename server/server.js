@@ -2,19 +2,12 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
-const multer = require("multer");
-const fs = require("fs");
-require("dotenv").config();
 const path = require("path");
+require("dotenv").config();
 
-const gettime = require("./utils/gettime");
-
-const Users = require("./models/Users");
 const Books = require("./models/Books");
-const Bookings = require("./models/Bookings");
 
 const secretKey = process.env.secretKey;
 const port = process.env.PORT || 5000;
@@ -36,6 +29,7 @@ app.use(
 );
 
 app.use(cookieParser());
+app.use("/uploads", express.static(path.join(__dirname, "./uploads")));
 
 mongoose
   .connect("mongodb://127.0.0.1:27017/givingbooks")
@@ -68,7 +62,6 @@ app.get("/api/", async (req, res) => {
 app.get("/profile", (req, res) => {
   try {
     const { token } = req.cookies;
-    console.log(token);
 
     jwt.verify(token, secretKey, {}, (err, info) => {
       if (err) {
@@ -695,4 +688,3 @@ app.listen(port, () => {
 //     res.status(500).json({ error: "Server Error" });
 //   }
 // });
-

@@ -65,7 +65,7 @@ const MyBooks = () => {
                 onClick={() => navigate(`/book/${value._id}`)}
               >
                 <img
-                  src={`${process.env.PUBLIC_URL}/images/${value.img}`}
+                  src={`${process.env.React_App_Host_Api}/uploads/${value.img}`}
                   alt="PIC"
                   className="bookimage"
                 />

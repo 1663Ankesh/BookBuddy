@@ -26,6 +26,8 @@ const HomePage = () => {
       setBooks(result);
     }
   }
+
+  console.log(books[0]);
   return (
     <>
       <div className="homepage">
@@ -40,10 +42,11 @@ const HomePage = () => {
                 onClick={() => navigate(`/book/${value._id}`)}
               >
                 <img
-                  src={process.env.PUBLIC_URL + "images/" + value.img}
+                  src={`${process.env.React_App_Host_Api}/uploads/${value.img}`}
                   alt="PIC"
                   className="bookimage"
                 />
+
                 <div className="book-otherinfo">
                   <div className="booktitle">
                     <span>Title : {value.booktitle}</span>

@@ -11,7 +11,7 @@ import Signup from "./components/SignUp";
 import ForgotPassword from "./components/ForgotPassword";
 import AddBook from "./components/AddBook";
 import MyBooks from "./components/MyBooks";
-import Book from "./components/Book";
+import BookInfo from "./components/BookInfo";
 import Bookings from "./components/Bookings";
 import Booking from "./components/Booking";
 import User from "./components/User";
@@ -32,7 +32,7 @@ const App = () => {
             <Route path="/forgotpassword" element={<ForgotPassword />}></Route>
             <Route path="/:id/mybooks" element={<MyBooks />}></Route>
             <Route path="/addbook" element={<AddBook />}></Route>
-            <Route path="/book/:id" element={<Book />}></Route>
+            <Route path="/book/:id" element={<BookInfo />}></Route>
             <Route path="/:id/bookings" element={<Bookings />}></Route>
             <Route path="/:id/bookings/:id1" element={<Booking />}></Route>
             <Route path="/:id" element={<User />}></Route>

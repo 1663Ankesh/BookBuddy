@@ -60,7 +60,7 @@ const LendedBooks = () => {
                 }
               >
                 <img
-                  src={`${process.env.PUBLIC_URL}/images/${booking.bookid}_img.jpg`}
+                  src={`${process.env.React_App_Host_Api}/uploads/${booking.bookid}_img.jpg`}
                   alt="PIC"
                   className="bookimage"
                 />

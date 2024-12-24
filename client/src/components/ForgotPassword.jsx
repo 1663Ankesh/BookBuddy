@@ -16,7 +16,9 @@ const ForgotPassword = () => {
     }
   }, [curruser, curruseremail, isuser]);
 
-  async function handleSubmit() {
+  async function handleSubmit(e) {
+    e.preventDefault();
+
     if (pwd === cpwd) {
       let result = await fetch(
         process.env.React_App_Host_Api + `/api/user/forgotpassword`,
@@ -33,7 +35,8 @@ const ForgotPassword = () => {
       result = await result.json();
       if (result.error) {
         alert(result.error);
-        navigate("/");
+
+        if (result.donavigate & (result.donavigate === true)) navigate("/");
         return;
       } else {
         navigate("/login");
@@ -45,8 +48,9 @@ const ForgotPassword = () => {
 
   return (
     <div className="loginpage forgotpassword">
-      <div className="form">
+      <form className="form" onSubmit={handleSubmit}>
         <div className="formheading">User Password Recovery</div>
+
         <div className="field">
           <label>Email : </label>
           <input
@@ -82,14 +86,14 @@ const ForgotPassword = () => {
 
         <div className="formbtns">
           <div className="field">
-            <button type="submit" className="submit-btn" onClick={handleSubmit}>
+            <button type="submit" className="submit-btn">
               Submit
             </button>
           </div>
 
           <div className="field">
             <button
-              type="submit"
+              type="button"
               className="submit-btn"
               onClick={() => navigate("/login")}
             >
@@ -97,7 +101,7 @@ const ForgotPassword = () => {
             </button>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

@@ -1,6 +1,8 @@
 const cors = require("cors");
 const multer = require("multer");
 const jwt = require("jsonwebtoken");
+const path = require("path");
+const fs = require("fs");
 
 const Users = require("../models/Users");
 const Books = require("../models/Books");
@@ -30,27 +32,6 @@ const getBookInfo = async (req, res) => {
     res.status(500).json({ error: "Server Error" });
   }
 };
-
-const allowedOrigins = [
-  "http://localhost:3000",
-  `${process.env.REACT_APP_Front_End}`,
-  `${process.env.REACT_APP_Host_Api}`,
-];
-const corsOptions = {
-  origin: allowedOrigins,
-  credentials: true,
-};
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "../client/public/images");
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
-  },
-});
-
-const upload = multer({ storage: storage }).single("img");
 
 const booktheBook = async (req, res) => {
   try {
@@ -108,6 +89,28 @@ const getBookInfoForUpdate = async (req, res) => {
   }
 };
 
+const allowedOrigins = [
+  "http://localhost:3000",
+  `${process.env.REACT_APP_Front_End}`,
+  `${process.env.REACT_APP_Host_Api}`,
+];
+const corsOptions = {
+  origin: allowedOrigins,
+  credentials: true,
+};
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const uploadDir = path.join(__dirname, "../uploads");
+    cb(null, uploadDir);
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage }).single("img");
+
 const updateBookInfo = [
   cors(corsOptions),
 
@@ -154,9 +157,10 @@ const updateBookInfo = [
                 const filename = req.file.originalname;
                 const newFilename = `${id}_img.jpg`;
                 console.log("Old filename ", filename);
+
                 fs.rename(
-                  path.join("../client/public/images", filename),
-                  path.join("../client/public/images", newFilename),
+                  path.join(__dirname, "../uploads", filename),
+                  path.join(__dirname, "../uploads", newFilename),
                   (err) => {
                     if (err) throw err;
                     console.log(`${filename} renamed to ${newFilename}`);

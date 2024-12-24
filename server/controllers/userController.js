@@ -2,8 +2,11 @@ const cors = require("cors");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 
 const generatehashedpwd = require("../utils/generatehashedpwd");
+const { errorForSignUp, errorForEmail } = require("../utils/validationerrors");
 
 const Users = require("../models/Users");
 const Books = require("../models/Books");
@@ -16,43 +19,54 @@ const userSignup = async (req, res) => {
     const { username, email, pwd, phn, place, state, pincode } = req.body;
 
     if (!username || !email || !pwd || !phn || !place || !state || !pincode) {
-      res.status(400).json({ error: "Fill Up the Form" });
+      res.status(400).json({ error: "Fill Up the Form", donavigate: false });
     } else {
-      let result = await Users.findOne({ email });
+      const validationErrors = errorForSignUp(req.body);
 
-      if (result) {
-        res.json({ error: "User Exists" });
+      if (Object.keys(validationErrors).length > 0) {
+        let err;
+        if (validationErrors.email) err += validationErrors.email;
+        if (validationErrors.phn) err += validationErrors.phn + "\n";
+        if (validationErrors.pincode) err += validationErrors.pincode + "\n";
+
+        res.status(400).json({ error: err, donavigate: false });
       } else {
-        let user = {
-          username: username,
-          email: email,
-          phn: phn,
-          pwd: await generatehashedpwd(pwd),
-          place: place,
-          state: state,
-          pincode: pincode,
-        };
+        let result = await Users.findOne({ email });
 
-        user = new Users(user);
-        await user.save();
+        if (result) {
+          res.json({ error: "User Exists" });
+        } else {
+          let user = {
+            username: username,
+            email: email,
+            phn: phn,
+            pwd: await generatehashedpwd(pwd),
+            place: place,
+            state: state,
+            pincode: pincode,
+          };
 
-        const token = jwt.sign(
-          {
-            userId: user._id,
-            username: user.username,
-            email: user.email,
-          },
-          secretKey
-        );
+          user = new Users(user);
+          await user.save();
 
-        return res
-          .status(200)
-          .cookie("token", token, {
-            httpOnly: true,
-            sameSite: "None",
-            secure: true,
-          })
-          .json({ username: user.username, email: user.email });
+          const token = jwt.sign(
+            {
+              userId: user._id,
+              username: user.username,
+              email: user.email,
+            },
+            secretKey
+          );
+
+          return res
+            .status(200)
+            .cookie("token", token, {
+              httpOnly: true,
+              sameSite: "None",
+              secure: true,
+            })
+            .json({ username: user.username, email: user.email });
+        }
       }
     }
   } catch (e) {
@@ -63,8 +77,17 @@ const userSignup = async (req, res) => {
 const userLogin = async (req, res) => {
   try {
     const { email, pwd } = req.body;
+
     if (!email || !pwd) {
       return res.status(400).json({ error: "Fill Up the form" });
+    }
+
+    const validationErrors = errorForEmail(email);
+
+    if (validationErrors?.email) {
+      return res
+        .status(400)
+        .json({ error: validationErrors.email, donavigate: false });
     }
 
     const user = await Users.findOne({ email });
@@ -92,6 +115,7 @@ const userLogin = async (req, res) => {
       return res.status(401).json({ error: "User not found" });
     }
   } catch (e) {
+    console.log(e);
     res.status(501).json({ error: "Server Error" });
   }
 };
@@ -103,6 +127,14 @@ const userForgotPassword = async (req, res) => {
     if (!email || !pwd) {
       return res.status(401).json({ error: "Fill Up the form" });
     } else {
+      const validationErrors = errorForEmail(email);
+
+      if (validationErrors?.email) {
+        return res
+          .status(400)
+          .json({ error: validationErrors.email, donavigate: false });
+      }
+
       let user = await Users.findOne({ email });
 
       if (user) {
@@ -120,6 +152,7 @@ const userForgotPassword = async (req, res) => {
       }
     }
   } catch (e) {
+    console.log(e);
     res.status(501).json({ error: "Server Error" });
   }
 };
@@ -154,7 +187,8 @@ const corsOptions = {
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "../client/public/images");
+    const uploadDir = path.join(__dirname, "../uploads");
+    cb(null, uploadDir);
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
@@ -172,7 +206,6 @@ const userAddBook = [
 
       jwt.verify(token, secretKey, {}, (err, info) => {
         if (err) throw err;
-        console.log("Token verified at /addbook");
 
         upload(req, res, async function (err) {
           if (err) {
@@ -220,8 +253,8 @@ const userAddBook = [
               const newFilename = `${bookid}_img.jpg`;
               console.log("Old filename ", filename);
               fs.rename(
-                path.join("../client/public/images", filename),
-                path.join("../client/public/images", newFilename),
+                path.join(__dirname, "../uploads", filename),
+                path.join(__dirname, "../uploads", newFilename),
                 (err) => {
                   if (err) throw err;
                   console.log(`${filename} renamed to ${newFilename}`);
@@ -310,7 +343,7 @@ const userBookings = async (req, res) => {
 const userInfo = async (req, res) => {
   try {
     const { token } = req.cookies;
-    console.log(token);
+
     jwt.verify(token, secretKey, {}, async (err, info) => {
       if (err) throw err;
 
@@ -338,55 +371,86 @@ const UpdateUserInfo = async (req, res) => {
     jwt.verify(token, secretKey, {}, async (err, info) => {
       if (err) throw err;
 
+      // console.log(req.body);
       const userid = req.params.id;
 
-      if (req.body.newpwd) {
-        let newpwd = await generatehashedpwd(req.body.newpwd);
+      const { newname, curruseremail, newphn, newplace, newstate, newpincode } =
+        req.body;
 
-        let result = await Users.findOneAndUpdate(
-          { _id: userid },
-          {
-            $set: {
-              username: req.body.newname,
-              phn: req.body.newphn,
-              pwd: newpwd,
-              place: req.body.newplace,
-              state: req.body.newstate,
-              pincode: req.body.newpincode,
-            },
-          }
-        );
+      if (
+        !newname ||
+        !curruseremail ||
+        !newphn ||
+        !newplace ||
+        !newstate ||
+        !newpincode
+      ) {
+        res.status(400).json({ error: "Fill Up the Form", donavigate: false });
       } else {
-        let result = await Users.findOneAndUpdate(
-          { _id: userid },
-          {
-            $set: {
-              username: req.body.newname,
-              phn: req.body.newphn,
-              place: req.body.newplace,
-              state: req.body.newstate,
-              pincode: req.body.newpincode,
-            },
+        const validationErrors = errorForSignUp({
+          email: curruseremail,
+          phn: newphn,
+          pincode: newpincode,
+        });
+
+        if (Object.keys(validationErrors).length > 0) {
+          let err;
+          if (validationErrors.email) err += validationErrors.email;
+          if (validationErrors.phn) err += validationErrors.phn + "\n";
+          if (validationErrors.pincode) err += validationErrors.pincode + "\n";
+
+          res.status(400).json({ error: err, donavigate: false });
+        } else {
+          if (req.body.newpwd) {
+            let newpwd = await generatehashedpwd(req.body.newpwd);
+
+            let result = await Users.findOneAndUpdate(
+              { _id: userid },
+              {
+                $set: {
+                  username: newname,
+                  phn: newphn,
+                  pwd: newpwd,
+                  place: newplace,
+                  state: newstate,
+                  pincode: newpincode,
+                },
+              }
+            );
+          } else {
+            let result = await Users.findOneAndUpdate(
+              { _id: userid },
+              {
+                $set: {
+                  username: newname,
+                  phn: newphn,
+                  place: newplace,
+                  state: newstate,
+                  pincode: newpincode,
+                },
+              }
+            );
           }
-        );
+
+          const newtoken = jwt.sign(
+            {
+              userId: userid,
+              username: newname,
+              email: req.body.curruseremail,
+            },
+            secretKey
+          );
+
+          res
+            .cookie("token", newtoken, {
+              httpOnly: true,
+              sameSite: "None",
+              secure: true,
+            })
+            .status(200)
+            .json({ username: newname, email: req.body.curruseremail });
+        }
       }
-
-      const newtoken = jwt.sign(
-        {
-          userId: userid,
-          username: req.body.newname,
-          email: req.body.curruseremail,
-        },
-        secretKey
-      );
-
-      res
-        .cookie("token", newtoken, {
-          httpOnly: true,
-          sameSite: "None",
-          secure: true,
-        })
-        .json({ username: req.body.newname, email: req.body.curruseremail });
     });
   } catch (e) {
     console.log(e);

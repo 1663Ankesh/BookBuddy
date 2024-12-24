@@ -76,7 +76,9 @@ const UpdateBook = () => {
     setImg(file);
   };
 
-  async function handleSubmit() {
+  async function handleSubmit(e) {
+    e.preventDefault();
+
     let formData = new FormData();
     formData.append("booktitle", booktitle);
     formData.append("edition", edition);
@@ -110,8 +112,9 @@ const UpdateBook = () => {
   return (
     <>
       <div className="addbookbackground">
-        <div className="addbook">
+        <form className="addbook" onSubmit={handleSubmit}>
           <div className="formheading">Update Book</div>
+
           <div className="field">
             <span>Title : </span>
             <input
@@ -122,6 +125,7 @@ const UpdateBook = () => {
               required
             />
           </div>
+
           <div className="field">
             <span>Edition :</span>
             <input
@@ -132,6 +136,7 @@ const UpdateBook = () => {
               required
             />
           </div>
+
           <div className="field">
             <span>Author : </span>
             <input
@@ -142,6 +147,7 @@ const UpdateBook = () => {
               required
             />
           </div>
+
           <div className="field">
             <span>Genre : </span>
             <input
@@ -152,6 +158,7 @@ const UpdateBook = () => {
               required
             />
           </div>
+
           <div className="field">
             <span>Condition : </span>
             <select
@@ -167,6 +174,7 @@ const UpdateBook = () => {
               <option value="little torn">Little Torn</option>
             </select>
           </div>
+
           <div className="field">
             <span>MRP : </span>
             <input
@@ -177,6 +185,7 @@ const UpdateBook = () => {
               required
             />
           </div>
+
           <div className="field image1">
             <span>Select Image :</span>
             <input
@@ -187,17 +196,21 @@ const UpdateBook = () => {
               onChange={onImgChange}
             />
           </div>
+
           <div className="formbtns">
-            <div className="submitbtn" onClick={handleSubmit}>
-              <button>Submit</button>
+            <div className="submitbtn">
+              <button type="submit">Submit</button>
             </div>
             <div className="back_btn">
-              <button onClick={() => navigate(`/book/${params.id}`)}>
+              <button
+                type="button"
+                onClick={() => navigate(`/book/${params.id}`)}
+              >
                 Back
               </button>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </>
   );
