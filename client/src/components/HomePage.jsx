@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 
 const HomePage = () => {
+  
   useEffect(() => {
     getdata();
-    console.log(books);
   }, []);
 
   let navigate = useNavigate();

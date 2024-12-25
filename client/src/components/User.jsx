@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { UserContext } from "../UserContext";
 import { useNavigate } from "react-router-dom";
 
@@ -19,40 +19,50 @@ const User = () => {
   const { curruser, setCurruser, setIsuser, isuser, id } =
     useContext(UserContext);
 
-  useEffect(() => {
-    getuser();
-    setnewpwd("");
-  }, [toupdate, curruser, curruseremail, setIsuser, id]);
-
-  async function getuser() {
+  const getuser = useCallback(async () => {
     try {
-      if (!isuser || !curruseremail || !curruser || !id) {
-        navigate("/");
-      } else {
-        let result = await fetch(
-          process.env.React_App_Host_Api + `/api/user/${id}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
-          }
-        );
+      let result = await fetch(
+        process.env.React_App_Host_Api + `/api/user/${id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
 
-        result = await result.json();
+      result = await result.json();
 
-        setUser(result);
-        setnewname(result.username);
-        setnewphn(result.phn);
-        setnewplace(result.place);
-        setnewstate(result.state);
-        setnewpincode(result.pincode);
-      }
-    } catch (error) {
-      console.error("Error fetching user:", error);
+      setUser(result);
+      setnewname(result.username);
+      setnewphn(result.phn);
+      setnewplace(result.place);
+      setnewstate(result.state);
+      setnewpincode(result.pincode);
+    } catch (e) {
+      console.error("Error fetching user data:", e);
+      alert("Failed to fetch user details.");
     }
-  }
+  }, [id]);
+
+  useEffect(() => {
+    if (!isuser || !curruseremail || !curruser || !id) {
+      navigate("/");
+    } else {
+      getuser();
+      setnewpwd("");
+    }
+  }, [
+    toupdate,
+    curruser,
+    curruseremail,
+    isuser,
+    setIsuser,
+    id,
+    navigate,
+    getuser,
+  ]);
 
   async function update(e) {
     e.preventDefault();
@@ -87,7 +97,6 @@ const User = () => {
       alert("Updated");
       setToupdate(!toupdate);
       setCurruser(result.name);
-      
     }
   }
 

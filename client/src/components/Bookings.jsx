@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { UserContext } from "../UserContext";
 import { useNavigate } from "react-router-dom";
 
@@ -8,34 +8,39 @@ const Bookings = () => {
 
   let [bookings, setBookings] = useState([]);
 
+  const getdata = useCallback(async () => {
+    try {
+      let result = await fetch(
+        process.env.React_App_Host_Api + `/api/user/${id}/bookings`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+
+      result = await result.json();
+      if (result.error) {
+        alert(result.error);
+        navigate("/");
+      } else {
+        setBookings(result);
+      }
+    } catch (e) {
+      console.error("Error fetching bookings data:", e);
+      alert("Failed to fetch bookings details.");
+    }
+  }, [id, navigate]);
+
   useEffect(() => {
     if (!curruser || !curruseremail || !isuser || !id) {
       navigate("/login");
     } else {
       getdata();
     }
-  }, [curruser, curruseremail, isuser, id]);
-
-  async function getdata() {
-    let result = await fetch(
-      process.env.React_App_Host_Api + `/api/user/${id}/bookings`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      }
-    );
-
-    result = await result.json();
-    if (result.error) {
-      alert(result.error);
-      navigate("/");
-    } else {
-      setBookings(result);
-    }
-  }
+  }, [curruser, curruseremail, isuser, id, navigate, getdata]);
 
   return (
     <div className="bookingbackground">

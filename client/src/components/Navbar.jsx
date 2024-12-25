@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../UserContext";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -19,6 +19,34 @@ const Navbar = () => {
   } = useContext(UserContext);
   const navigate = useNavigate();
 
+  const profile = useCallback(async () => {
+    try {
+      let result = await fetch(process.env.React_App_Host_Api + "/profile", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      result = await result.json();
+
+      console.log("My result from navbar profile", result);
+
+      setCurruseremail(result?.email);
+      if (result.username) {
+        setCurruser(result?.username);
+        setId(result?.userId);
+        setIsuser(true);
+      } else {
+        setIsuser(false);
+      }
+    } catch (e) {
+      console.error("Error fetching profile data:", e);
+      alert("Failed to fetch profile details.");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     profile();
     const handleResize = () => {
@@ -28,29 +56,7 @@ const Navbar = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [curruser, curruseremail, isuser, id]);
-
-  async function profile() {
-    let result = await fetch(process.env.React_App_Host_Api + "/profile", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-    });
-    result = await result.json();
-
-    console.log("My result from navbar profile", result);
-
-    setCurruseremail(result?.email);
-    if (result.username) {
-      setCurruser(result?.username);
-      setId(result?.userId);
-      setIsuser(true);
-    } else {
-      setIsuser(false);
-    }
-  }
+  }, [curruser, curruseremail, isuser, id, profile]);
 
   async function logout() {
     await fetch(process.env.React_App_Host_Api + "/logout", {
@@ -128,43 +134,52 @@ const Navbar = () => {
           </div>
         </div>
       )}
-      {windowWidth<=500 && todisplay && (
+      {windowWidth <= 500 && todisplay && (
         <div className="dropdown">
           {isuser ? (
             <div className="navbarleft2">
               <li
                 className="item"
-                onClick={() => (setTodisplay(false), navigate(`/${id}`))}
+                onClick={() => {
+                  setTodisplay(false);
+                  navigate(`/${id}`);
+                }}
               >
                 {curruser}
               </li>
               <li
                 className="item"
-                onClick={() => (
-                  setTodisplay(false), navigate(`/${id}/mybooks`)
-                )}
+                onClick={() => {
+                  setTodisplay(false);
+                  navigate(`/${id}/mybooks`);
+                }}
               >
                 My Books
               </li>
               <li
                 className="item"
-                onClick={() => (
-                  setTodisplay(false), navigate(`/${id}/lendedbooks`)
-                )}
+                onClick={() => {
+                  setTodisplay(false);
+                  navigate(`/${id}/lendedbooks`);
+                }}
               >
                 Lended Books
               </li>
               <li
                 className="item"
-                onClick={() => (
-                  setTodisplay(false), navigate(`/${id}/bookings`)
-                )}
+                onClick={() => {
+                  setTodisplay(false);
+                  navigate(`/${id}/bookings`);
+                }}
               >
                 My Bookings
               </li>
               <li
                 className="item"
-                onClick={() => (setTodisplay(false), logout())}
+                onClick={() => {
+                  setTodisplay(false);
+                  logout();
+                }}
               >
                 LogOut
               </li>
@@ -173,7 +188,10 @@ const Navbar = () => {
             <div className="navbarright">
               <li
                 className="item"
-                onClick={() => (setTodisplay(false), navigate("/login"))}
+                onClick={() => {
+                  setTodisplay(false);
+                  navigate("/login");
+                }}
               >
                 LogIn
               </li>

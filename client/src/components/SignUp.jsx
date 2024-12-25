@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../UserContext";
 
 const Signup = () => {
-  const { curruser, curruseremail, isuser, setCurruser, id, setId } =
+  const { curruser, curruseremail, isuser, setCurruser, id } =
     useContext(UserContext);
 
   const [username, setUsername] = useState("");
@@ -19,7 +19,7 @@ const Signup = () => {
     if (curruser) {
       navigate("/");
     }
-  }, [curruser, curruseremail, isuser, id]);
+  }, [curruser, curruseremail, isuser, id, navigate]);
 
   async function handleSubmit(e) {
     e.preventDefault();

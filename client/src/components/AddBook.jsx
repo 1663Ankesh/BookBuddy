@@ -3,15 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../UserContext";
 
 const AddBook = () => {
-  let {
-    curruser,
-    setCurruser,
-    curruseremail,
-    setCurruseremail,
-    isuser,
-    setIsuser,
-    id,
-  } = useContext(UserContext);
+  let { curruser, curruseremail, isuser, id } = useContext(UserContext);
 
   let navigate = useNavigate();
 
@@ -20,7 +12,7 @@ const AddBook = () => {
       alert("Please Login");
       navigate("/login");
     }
-  }, [curruser, curruseremail, isuser]);
+  }, [curruser, curruseremail, isuser, navigate]);
 
   const [booktitle, setBooktitle] = useState("");
   const [edition, setEdition] = useState();
@@ -138,7 +130,7 @@ const AddBook = () => {
           </div>
 
           <div className="field">
-            <span>MRP : </span>
+            <span>MRP : ₹</span>
             <input
               type="number"
               placeholder="MRP"

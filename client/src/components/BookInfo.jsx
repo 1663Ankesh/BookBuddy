@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../UserContext";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
@@ -7,36 +7,41 @@ const Book = () => {
   let navigate = useNavigate();
   let { curruser, curruseremail, isuser, id } = useContext(UserContext);
 
-  useEffect(() => {
-    getdata();
-  }, [curruser, curruseremail, isuser, id]);
-
   let params = useParams();
 
   const [book, setBook] = useState({});
   const [owner, setOwner] = useState({});
 
-  async function getdata() {
-    let result = await fetch(
-      process.env.React_App_Host_Api + `/api/book/${params.id}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      }
-    );
-    let book = await result.json();
+  const getdata = useCallback(async () => {
+    try {
+      const result = await fetch(
+        process.env.React_App_Host_Api + `/api/book/${params.id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+      const book = await result.json();
 
-    if (book.error) {
-      alert(book.error);
-      navigate("/");
-    } else {
-      setBook(book.result);
-      setOwner(book.owner);
+      if (book.error) {
+        alert(book.error);
+        navigate("/");
+      } else {
+        setBook(book.result);
+        setOwner(book.owner);
+      }
+    } catch (error) {
+      console.error("Error fetching book data:", error);
+      alert("Failed to fetch book details.");
     }
-  }
+  }, [params.id, navigate]);
+
+  useEffect(() => {
+    getdata();
+  }, [curruser, curruseremail, isuser, id, getdata]);
 
   async function handlebook() {
     let owner_id = owner.owner_id;

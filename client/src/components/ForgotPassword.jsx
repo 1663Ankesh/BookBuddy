@@ -11,10 +11,10 @@ const ForgotPassword = () => {
   const [cpwd, setCpwd] = useState("");
 
   useEffect(() => {
-    if (curruser) {
+    if (curruser || curruseremail || isuser) {
       navigate("/");
     }
-  }, [curruser, curruseremail, isuser]);
+  }, [curruser, curruseremail, isuser, navigate]);
 
   async function handleSubmit(e) {
     e.preventDefault();

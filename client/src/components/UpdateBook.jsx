@@ -1,20 +1,62 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../UserContext";
 
 const UpdateBook = () => {
-  let {
-    curruser,
-    setCurruser,
-    curruseremail,
-    setCurruseremail,
-    isuser,
-    setIsuser,
-    id,
-  } = useContext(UserContext);
+  let { curruser, curruseremail, isuser, id } = useContext(UserContext);
 
   let navigate = useNavigate();
   let params = useParams();
+
+  const [booktitle, setBooktitle] = useState("");
+  const [edition, setEdition] = useState("");
+  const [author, setAuthor] = useState("");
+  const [genre, setGenre] = useState("");
+  const [condition, setCondition] = useState("");
+  const [mrp, setMrp] = useState("");
+  const [img, setImg] = useState("");// eslint-disable-next-line
+  const [book, setBook] = useState({});
+
+  const getdata = useCallback(async () => {
+    try {
+      let result = await fetch(
+        process.env.React_App_Host_Api + `/api/book/${params.id}/update`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+      let book = await result.json();
+      console.log(book);
+
+      if (book.error) {
+        alert(book.error);
+        navigate(`/book/${params.id}`);
+      } else {
+        setBook(book);
+
+        if (id === undefined || book.ownerId !== id) {
+          console.log("id : ", id);
+          console.log("owner : ", book.ownerId);
+          alert("You cannot visit this page");
+          navigate("/");
+        } else {
+          setBooktitle(book.booktitle);
+          setEdition(book.edition);
+          setAuthor(book.author);
+          setGenre(book.genre);
+          setCondition(book.condition);
+          setMrp(book.mrp);
+        }
+      }
+    } catch (e) {
+      console.error("Error fetching book data:", e);
+      alert("Failed to fetch book details.");
+    }
+  }, [params.id, id, navigate]);
 
   useEffect(() => {
     if (!curruser || !curruseremail || !isuser) {
@@ -23,53 +65,7 @@ const UpdateBook = () => {
     } else {
       getdata();
     }
-  }, [curruser, curruseremail, isuser]);
-
-  const [book, setBook] = useState({});
-
-  async function getdata() {
-    let result = await fetch(
-      process.env.React_App_Host_Api + `/api/book/${params.id}/update`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      }
-    );
-    let book = await result.json();
-    console.log(book);
-
-    if (book.error) {
-      alert(book.error);
-      navigate(`/book/${params.id}`);
-    } else {
-      setBook(book);
-
-      if (id === undefined || book.ownerId !== id) {
-        console.log("id : ", id);
-        console.log("owner : ", book.ownerId);
-        alert("You cannot visit this page");
-        navigate("/");
-      } else {
-        setBooktitle(book.booktitle);
-        setEdition(book.edition);
-        setAuthor(book.author);
-        setGenre(book.genre);
-        setCondition(book.condition);
-        setMrp(book.mrp);
-      }
-    }
-  }
-
-  const [booktitle, setBooktitle] = useState("");
-  const [edition, setEdition] = useState("");
-  const [author, setAuthor] = useState("");
-  const [genre, setGenre] = useState("");
-  const [condition, setCondition] = useState("");
-  const [mrp, setMrp] = useState("");
-  const [img, setImg] = useState("");
+  }, [curruser, curruseremail, isuser, navigate, getdata]);
 
   const onImgChange = (e) => {
     const file = e.target.files[0];
@@ -176,7 +172,7 @@ const UpdateBook = () => {
           </div>
 
           <div className="field">
-            <span>MRP : </span>
+            <span>MRP : ₹</span>
             <input
               type="number"
               placeholder="MRP"

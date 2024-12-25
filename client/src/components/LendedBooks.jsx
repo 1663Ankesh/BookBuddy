@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../UserContext";
 
@@ -9,6 +9,32 @@ const LendedBooks = () => {
 
   const [lendedbooks, setLendedbooks] = useState([]);
 
+  const getdata = useCallback(async () => {
+    try {
+      let result = await fetch(
+        process.env.React_App_Host_Api + `/api/user/${id}/lendedbooks`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+      result = await result.json();
+
+      if (result.error) {
+        alert(result.error);
+        navigate("/");
+      } else {
+        setLendedbooks(result);
+      }
+    } catch (e) {
+      console.error("Error fetching lended books data:", e);
+      alert("Failed to fetch lended books details.");
+    }
+  }, [id, navigate]);
+
   useEffect(() => {
     if (!curruser || !curruseremail || !isuser || !id) {
       alert("Please Login");
@@ -16,28 +42,7 @@ const LendedBooks = () => {
     } else {
       getdata();
     }
-  }, [curruser, curruseremail, isuser, id]);
-
-  async function getdata() {
-    let result = await fetch(
-      process.env.React_App_Host_Api + `/api/user/${id}/lendedbooks`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      }
-    );
-    result = await result.json();
-
-    if (result.error) {
-      alert(result.error);
-      navigate("/");
-    } else {
-      setLendedbooks(result);
-    }
-  }
+  }, [curruser, curruseremail, isuser, id, navigate, getdata]);
 
   return (
     <div className="lendedbackground">

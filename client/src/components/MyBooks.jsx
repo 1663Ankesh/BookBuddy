@@ -1,19 +1,40 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../UserContext";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 
 const MyBooks = () => {
-  let {
-    curruser,
-    setCurruser,
-    curruseremail,
-    setCurruseremail,
-    isuser,
-    setIsuser,
-  } = useContext(UserContext);
+  let { curruser, curruseremail, isuser } = useContext(UserContext);
 
+  let params = useParams();
   let navigate = useNavigate();
+
+  const [books, setBooks] = useState([]);
+
+  const getdata = useCallback(async () => {
+    try {
+      let result = await fetch(
+        process.env.React_App_Host_Api + `/api/user/${params.id}/mybooks`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+      result = await result.json();
+      if (result.error) {
+        alert(result.error);
+        navigate("/");
+      } else {
+        setBooks(result);
+      }
+    } catch (e) {
+      console.error("Error fetching my books data:", e);
+      alert("Failed to fetch my books details.");
+    }
+  }, [params.id, navigate]);
 
   useEffect(() => {
     if (!curruser || !curruseremail || !isuser) {
@@ -22,31 +43,7 @@ const MyBooks = () => {
     } else {
       getdata();
     }
-  }, [curruser, curruseremail, isuser]);
-
-  const [books, setBooks] = useState([]);
-
-  let params = useParams();
-
-  async function getdata() {
-    let result = await fetch(
-      process.env.React_App_Host_Api + `/api/user/${params.id}/mybooks`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      }
-    );
-    result = await result.json();
-    if (result.error) {
-      alert(result.error);
-      navigate("/");
-    } else {
-      setBooks(result);
-    }
-  }
+  }, [curruser, curruseremail, isuser, navigate, getdata]);
 
   return (
     <div className="mybookspage">

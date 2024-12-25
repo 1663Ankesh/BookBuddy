@@ -29,6 +29,4 @@ function errorForEmail(email) {
   }
 }
 
-
-
 module.exports = { errorForSignUp, errorForEmail };
