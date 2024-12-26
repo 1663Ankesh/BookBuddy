@@ -15,7 +15,7 @@ const Book = () => {
   const getdata = useCallback(async () => {
     try {
       const result = await fetch(
-        process.env.React_App_Host_Api + `/api/book/${params.id}`,
+        process.env.REACT_APP_Host_Api + `/api/book/${params.id}`,
         {
           method: "GET",
           headers: {
@@ -49,7 +49,7 @@ const Book = () => {
     console.log(id, owner_id);
 
     let result = await fetch(
-      process.env.React_App_Host_Api + `/api/book/${params.id}`,
+      process.env.REACT_APP_Host_Api + `/api/book/${params.id}`,
       {
         method: "POST",
         body: JSON.stringify({ id, owner_id }),
@@ -75,7 +75,7 @@ const Book = () => {
       <div className="bookblock">
         <div className="book">
           <img
-            src={`${process.env.React_App_Host_Api}/uploads/${book.img}`}
+            src={`${process.env.REACT_APP_Host_Api}/uploads/${book.img}`}
             alt="PIC"
             className="bookimage"
           />

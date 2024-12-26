@@ -11,7 +11,7 @@ const Bookings = () => {
   const getdata = useCallback(async () => {
     try {
       let result = await fetch(
-        process.env.React_App_Host_Api + `/api/user/${id}/bookings`,
+        process.env.REACT_APP_Host_Api + `/api/user/${id}/bookings`,
         {
           method: "GET",
           headers: {
@@ -59,7 +59,7 @@ const Bookings = () => {
                 onClick={() => navigate(`/${id}/bookings/${booking._id}`)}
               >
                 <img
-                  src={`${process.env.React_App_Host_Api}/uploads/${booking.bookid}_img.jpg`}
+                  src={`${process.env.REACT_APP_Host_Api}/uploads/${booking.bookid}_img.jpg`}
                   alt="PIC"
                   className="bookimage"
                 />

@@ -12,7 +12,7 @@ const LendedBooks = () => {
   const getdata = useCallback(async () => {
     try {
       let result = await fetch(
-        process.env.React_App_Host_Api + `/api/user/${id}/lendedbooks`,
+        process.env.REACT_APP_Host_Api + `/api/user/${id}/lendedbooks`,
         {
           method: "GET",
           headers: {
@@ -65,7 +65,7 @@ const LendedBooks = () => {
                 }
               >
                 <img
-                  src={`${process.env.React_App_Host_Api}/uploads/${booking.bookid}_img.jpg`}
+                  src={`${process.env.REACT_APP_Host_Api}/uploads/${booking.bookid}_img.jpg`}
                   alt="PIC"
                   className="bookimage"
                 />

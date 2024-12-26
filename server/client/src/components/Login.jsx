@@ -22,7 +22,7 @@ const Login = () => {
 
     console.log(email, pwd);
     let result = await fetch(
-      process.env.React_App_Host_Api + "/api/user/login",
+      process.env.REACT_APP_Host_Api + "/api/user/login",
       {
         method: "POST",
         body: JSON.stringify({ email, pwd }),

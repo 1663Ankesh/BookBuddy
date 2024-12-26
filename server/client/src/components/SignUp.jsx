@@ -25,7 +25,7 @@ const Signup = () => {
     e.preventDefault();
 
     let result = await fetch(
-      process.env.React_App_Host_Api + "/api/user/signup",
+      process.env.REACT_APP_Host_Api + "/api/user/signup",
       {
         method: "POST",
         body: JSON.stringify({

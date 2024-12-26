@@ -20,7 +20,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   async function profile() {
-    let result = await fetch(process.env.React_App_Host_Api + "/profile", {
+    let result = await fetch(process.env.REACT_APP_Host_Api + "/profile", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -51,7 +51,7 @@ const Navbar = () => {
   }, [curruser, curruseremail, isuser, id]);
 
   async function logout() {
-    await fetch(process.env.React_App_Host_Api + "/logout", {
+    await fetch(process.env.REACT_APP_Host_Api + "/logout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

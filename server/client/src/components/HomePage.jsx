@@ -12,7 +12,7 @@ const HomePage = () => {
   const [books, setBooks] = useState([]);
 
   async function getdata() {
-    let result = await fetch(process.env.React_App_Host_Api + "/api/", {
+    let result = await fetch(process.env.REACT_APP_Host_Api + "/api/", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -42,7 +42,7 @@ const HomePage = () => {
                 onClick={() => navigate(`/book/${value._id}`)}
               >
                 <img
-                  src={`${process.env.React_App_Host_Api}/uploads/${value.img}`}
+                  src={`${process.env.REACT_APP_Host_Api}/uploads/${value.img}`}
                   alt="PIC"
                   className="bookimage"
                 />

@@ -20,7 +20,7 @@ const UpdateBook = () => {
   const getdata = useCallback(async () => {
     try {
       let result = await fetch(
-        process.env.React_App_Host_Api + `/api/book/${params.id}/update`,
+        process.env.REACT_APP_Host_Api + `/api/book/${params.id}/update`,
         {
           method: "GET",
           headers: {
@@ -86,7 +86,7 @@ const UpdateBook = () => {
     formData.append("curruseremail", curruseremail);
 
     let result = await fetch(
-      process.env.React_App_Host_Api + `/api/book/${params.id}/update`,
+      process.env.REACT_APP_Host_Api + `/api/book/${params.id}/update`,
       {
         method: "POST",
         body: formData,

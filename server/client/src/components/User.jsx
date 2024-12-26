@@ -22,7 +22,7 @@ const User = () => {
   const getuser = useCallback(async () => {
     try {
       let result = await fetch(
-        process.env.React_App_Host_Api + `/api/user/${id}`,
+        process.env.REACT_APP_Host_Api + `/api/user/${id}`,
         {
           method: "GET",
           headers: {
@@ -68,7 +68,7 @@ const User = () => {
     e.preventDefault();
 
     let result = await fetch(
-      process.env.React_App_Host_Api + `/api/user/${id}`,
+      process.env.REACT_APP_Host_Api + `/api/user/${id}`,
       {
         method: "POST",
         body: JSON.stringify({
