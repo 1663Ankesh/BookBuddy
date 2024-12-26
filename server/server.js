@@ -10,17 +10,22 @@ const Books = require("./models/Books");
 const corsMiddleware = require("./middleware/cors");
 
 const secretKey = process.env.secretKey;
+const mongodb_url = process.env.mongodb_url;
 const port = process.env.PORT || 5000;
 
 corsMiddleware(app);
 
+const clientOptions = {
+  serverApi: { version: "1", strict: true, deprecationErrors: true },
+};
+
 mongoose
-  .connect("mongodb://127.0.0.1:27017/givingbooks")
+  .connect(mongodb_url, clientOptions)
   .then(() => {
-    console.log("Connected to Mongodb");
+    console.log("Connected to Mongo");
   })
-  .catch(() => {
-    console.log("MongoDB connection error");
+  .catch((e) => {
+    console.log("Database connection Error ", e);
   });
 
 const userRoutes = require("./routes/userRoutes");
