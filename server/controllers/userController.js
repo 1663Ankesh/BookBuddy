@@ -34,7 +34,7 @@ const userSignup = async (req, res) => {
         let result = await Users.findOne({ email });
 
         if (result) {
-          res.json({ error: "User Exists" });
+          res.status(401).json({ error: "User Exists" });
         } else {
           let user = {
             username: username,
@@ -230,7 +230,7 @@ const userAddBook = [
             !condition ||
             !mrp
           ) {
-            res.status(501).json({ error: "Fill Up the Form" });
+            res.status(401).json({ error: "Fill Up the Form" });
           } else {
             let owner = await Users.findOne({ email: curruseremail });
 

@@ -7,6 +7,7 @@ const fs = require("fs");
 const Users = require("../models/Users");
 const Books = require("../models/Books");
 const Bookings = require("../models/Bookings");
+const gettime = require("../utils/gettime");
 
 const secretKey = process.env.secretKey;
 
@@ -136,7 +137,7 @@ const updateBookInfo = [
             !condition ||
             !mrp
           ) {
-            res.json({ error: "Fill Up the Form" });
+            res.status(400).json({ error: "Fill Up the Form" });
           } else {
             let result = await Books.findOneAndUpdate(
               { _id: id },

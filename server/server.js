@@ -1,35 +1,16 @@
 const express = require("express");
 const app = express();
-const cors = require("cors");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-const cookieParser = require("cookie-parser");
-const path = require("path");
 require("dotenv").config();
 
 const Books = require("./models/Books");
+const corsMiddleware  = require("./middleware/cors");
 
 const secretKey = process.env.secretKey;
 const port = process.env.PORT || 5000;
 
-app.use(express.json());
-
-const allowedOrigins = [
-  "http://localhost:3000",
-  `${process.env.REACT_APP_Front_End}`,
-  `${process.env.REACT_APP_Host_Api}`,
-];
-app.use(
-  cors({
-    origin: allowedOrigins,
-    methods: "GET,PUT,POST,DELETE",
-    credentials: true,
-    optionsSuccessStatus: 204,
-  })
-);
-
-app.use(cookieParser());
-app.use("/uploads", express.static(path.join(__dirname, "./uploads")));
+corsMiddleware(app);
 
 mongoose
   .connect("mongodb://127.0.0.1:27017/givingbooks")

@@ -114,7 +114,7 @@ const Signup = () => {
           <label>Place : </label>
           <input
             type="text"
-            placeholder="Enter Plcae"
+            placeholder="Enter Place"
             value={place}
             onChange={(e) => setPlace(e.target.value)}
             required
