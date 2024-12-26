@@ -34,14 +34,14 @@ const bookRoutes = require("./routes/bookRoutes");
 app.use("/api/user/", userRoutes);
 app.use("/api/book", bookRoutes);
 
-app.use((req, res, next) => {
-  console.log(`Request Method: ${req.method}, Request URL: ${req.url}`);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log(`Request Method: ${req.method}, Request URL: ${req.url}`);
+//   next();
+// });
 
-app.get("/favicon.ico", (req, res) => {
-  res.sendFile(path.join(__dirname, "./client/build/favicon.ico"));
-});
+// app.get("/favicon.ico", (req, res) => {
+//   res.sendFile(path.join(__dirname, "./client/build/favicon.ico"));
+// });
 
 app.get("/api/", async (req, res) => {
   try {
