@@ -53,21 +53,15 @@ app.get("/profile", (req, res) => {
 
     jwt.verify(token, secretKey, {}, (err, info) => {
       if (err) {
-        res
-          .cookie("token", " ", {
-            sameSite: "None",
-            secure: true,
-            expire: new Date(0),
-          })
-          .status(200)
-          .json({ error: "JWT error" });
+        console.log(err);
+        throw err;
       } else {
         res.status(200).json(info);
       }
     });
   } catch (e) {
     console.log(e);
-    res.status(501).json({ error: "Server Error" });
+    res.status(501).json({ error: "No token or Server Error" });
   }
 });
 
