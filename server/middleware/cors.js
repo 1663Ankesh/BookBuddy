@@ -21,6 +21,7 @@ function corsMiddleware(app) {
   app.use(express.json());
   app.use(cookieParser());
   app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+  app.use(express.static(path.join(__dirname, "../../client/build")));
 }
 
 module.exports = corsMiddleware;
