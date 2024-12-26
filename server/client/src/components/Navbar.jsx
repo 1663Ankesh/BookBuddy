@@ -19,7 +19,7 @@ const Navbar = () => {
   } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const profile = useCallback(async () => {
+  async function profile() {
     try {
       let result = await fetch(process.env.React_App_Host_Api + "/profile", {
         method: "GET",
@@ -29,8 +29,6 @@ const Navbar = () => {
         credentials: "include",
       });
       result = await result.json();
-
-      console.log("My result from navbar profile", result);
 
       setCurruseremail(result?.email);
       if (result.username) {
@@ -42,10 +40,9 @@ const Navbar = () => {
       }
     } catch (e) {
       console.error("Error fetching profile data:", e);
-      alert("Failed to fetch profile details.");
+      alert("Failed to fetch profile details:", e);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }
 
   useEffect(() => {
     profile();
@@ -56,7 +53,7 @@ const Navbar = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [curruser, curruseremail, isuser, id, profile]);
+  }, [curruser, curruseremail, isuser, id]);
 
   async function logout() {
     await fetch(process.env.React_App_Host_Api + "/logout", {
