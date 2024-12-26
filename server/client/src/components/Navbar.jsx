@@ -20,27 +20,22 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   async function profile() {
-    try {
-      let result = await fetch(process.env.React_App_Host_Api + "/profile", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      });
-      result = await result.json();
+    let result = await fetch(process.env.React_App_Host_Api + "/profile", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+    result = await result.json();
 
-      setCurruseremail(result?.email);
-      if (result.username) {
-        setCurruser(result?.username);
-        setId(result?.userId);
-        setIsuser(true);
-      } else {
-        setIsuser(false);
-      }
-    } catch (e) {
-      console.error("Error fetching profile data:", e);
-      alert("Failed to fetch profile details:", e);
+    setCurruseremail(result?.email);
+    if (result.username) {
+      setCurruser(result?.username);
+      setId(result?.userId);
+      setIsuser(true);
+    } else {
+      setIsuser(false);
     }
   }
 
