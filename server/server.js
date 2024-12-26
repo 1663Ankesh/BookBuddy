@@ -87,7 +87,7 @@ app.post("/logout", async (req, res) => {
 });
 
 app.get("*", (req, res) => {
-  const buildPath = path.resolve(__dirname, "../client/build", "index.html");
+  const buildPath = path.resolve(__dirname, "./client/build", "index.html");
   if (fs.existsSync(buildPath)) {
     res.sendFile(buildPath);
   } else {
