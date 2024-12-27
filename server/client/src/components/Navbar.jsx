@@ -19,25 +19,30 @@ const Navbar = () => {
   } = useContext(UserContext);
   const navigate = useNavigate();
 
-  async function profile() {
-    let result = await fetch(process.env.REACT_APP_Host_Api + "/profile", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-    });
-    result = await result.json();
+  const profile = useCallback(async () => {
+    try {
+      let result = await fetch(process.env.REACT_APP_Host_Api + "/profile", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      result = await result.json();
 
-    setCurruseremail(result?.email);
-    if (result.username) {
-      setCurruser(result?.username);
-      setId(result?.userId);
-      setIsuser(true);
-    } else {
-      setIsuser(false);
+      setCurruseremail(result?.email);
+      if (result.username) {
+        setCurruser(result?.username);
+        setId(result?.userId);
+        setIsuser(true);
+      } else {
+        setIsuser(false);
+      }
+    } catch (e) {
+      console.log("Error fetching profile data : ", e);
     }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     profile();
@@ -48,7 +53,7 @@ const Navbar = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [curruser, curruseremail, isuser, id]);
+  }, [curruser, curruseremail, isuser, id, profile]);
 
   async function logout() {
     await fetch(process.env.REACT_APP_Host_Api + "/logout", {

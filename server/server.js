@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const path = require("path");
 const fs = require("fs");
@@ -8,40 +7,19 @@ require("dotenv").config();
 
 const Books = require("./models/Books");
 const corsMiddleware = require("./middleware/cors");
+const connectDatabase = require("./config/db");
 
 const secretKey = process.env.secretKey;
-const mongodb_url = process.env.mongodb_url;
 const port = process.env.PORT || 5000;
 
 corsMiddleware(app);
-
-const clientOptions = {
-  serverApi: { version: "1", strict: true, deprecationErrors: true },
-};
-
-mongoose
-  .connect(mongodb_url, clientOptions)
-  .then(() => {
-    console.log("Connected to Mongo");
-  })
-  .catch((e) => {
-    console.log("Database connection Error ", e);
-  });
+connectDatabase();
 
 const userRoutes = require("./routes/userRoutes");
 const bookRoutes = require("./routes/bookRoutes");
 
 app.use("/api/user/", userRoutes);
 app.use("/api/book", bookRoutes);
-
-// app.use((req, res, next) => {
-//   console.log(`Request Method: ${req.method}, Request URL: ${req.url}`);
-//   next();
-// });
-
-// app.get("/favicon.ico", (req, res) => {
-//   res.sendFile(path.join(__dirname, "./client/build/favicon.ico"));
-// });
 
 app.get("/api/", async (req, res) => {
   try {
@@ -62,8 +40,14 @@ app.get("/profile", (req, res) => {
 
     jwt.verify(token, secretKey, {}, (err, info) => {
       if (err) {
-        console.log(err);
-        throw err;
+        res
+          .status(200)
+          .cookie("token", " ", {
+            sameSite: "None",
+            secure: true,
+            expire: new Date(0),
+          })
+          .json({ error: "No token received or JWT error" });
       } else {
         res.status(200).json(info);
       }

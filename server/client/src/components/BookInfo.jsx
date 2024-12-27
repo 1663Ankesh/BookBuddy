@@ -83,30 +83,30 @@ const Book = () => {
             <div className="bookdetails">
               <div className="booktitle">
                 <span>Title : </span>
-                {book.booktitle}
+                <span className="info">{book.booktitle}</span>
               </div>
               <div className="author">
                 <span>Author : </span>
-                {book.author}
+                <span className="info">{book.author}</span>
               </div>
               <div className="edition">
                 <span>Edition : </span>
-                {book.edition}
+                <span className="info">{book.edition}</span>
               </div>
               <div className="genre">
                 <span>Genre : </span>
-                {book.genre}
+                <span className="info">{book.genre}</span>
               </div>
               <div className="condition">
                 <span>Condition : </span>
-                {book.condition}
+                <span className="info">{book.condition}</span>
               </div>
               <div className="mrp">
                 <span>
                   MRP of book :{" "}
                   <CurrencyRupeeIcon style={{ fontSize: "20px" }} />
                 </span>
-                {book.mrp}
+                <span className="info">{book.mrp}</span>
               </div>
             </div>
             <div className="bookownerdetails">
@@ -138,7 +138,7 @@ const Book = () => {
           {id !== undefined && id.length ? (
             <>
               {id === owner.owner_id ? (
-                <>
+                <div className="cannotclass">
                   <div className="cannotbookbtn">Cannot Book Own Book</div>
                   <div
                     className="updatebook"
@@ -146,7 +146,7 @@ const Book = () => {
                   >
                     Update Book Info
                   </div>
-                </>
+                </div>
               ) : (
                 <>
                   <div className="bookbtn" onClick={handlebook}>
