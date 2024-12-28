@@ -164,7 +164,10 @@ const userMyBooks = async (req, res) => {
     jwt.verify(token, secretKey, {}, async (err, info) => {
       if (err) throw err;
 
-      let books = await Books.find({ ownerId: req.params.id, isbooked: false });
+      let books = await Books.find({
+        ownerId: req.params.id,
+        isbooked: false,
+      }).sort({ _id: 1 });
       books = books.reverse();
 
       res.status(200).json(books);
@@ -329,7 +332,7 @@ const userBookings = async (req, res) => {
       if (err) throw err;
 
       const buyerid = req.params.id;
-      let result = await Bookings.find({ buyerid });
+      let result = await Bookings.find({ buyerid }).sort({ _id: 1 });
       result = result.reverse();
 
       res.status(200).json(result);
@@ -466,7 +469,9 @@ const userLendedBooks = async (req, res) => {
 
       let userid = req.params.id;
 
-      let lendedbooks = await Bookings.find({ ownerid: userid });
+      let lendedbooks = await Bookings.find({ ownerid: userid }).sort({
+        _id: 1,
+      });
       lendedbooks = lendedbooks.reverse();
 
       res.status(200).json(lendedbooks);

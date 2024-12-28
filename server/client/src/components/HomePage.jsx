@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 
 const HomePage = () => {
-  
   useEffect(() => {
     getdata();
   }, []);
@@ -49,23 +48,27 @@ const HomePage = () => {
 
                 <div className="book-otherinfo">
                   <div className="booktitle">
-                    <span>Title : {value.booktitle}</span>
+                    <span>{value.booktitle}</span>
                   </div>
                   <div className="author">
-                    <span>Author : {value.author}</span>
+                    <span>Author : </span>
+                    <span>{value.author}</span>
                   </div>
                   <div className="downblock">
                     <div className="left">
                       <div className="edition">
-                        <span>Edition : {value.edition}</span>
+                        <span>Edition : </span>
+                        <span>{value.edition}</span>
                       </div>
                       <div className="genre">
-                        <span>Genre : {value.genre}</span>
+                        <span>Genre : </span>
+                        <span>{value.genre}</span>
                       </div>
                     </div>
                     <div className="right">
                       <div className="condition">
-                        <span>Condition : {value.condition}</span>
+                        <span>Condition : </span>
+                        <span>{value.condition}</span>
                       </div>
                       <div className="mrp">
                         <span>

@@ -23,7 +23,7 @@ app.use("/api/book", bookRoutes);
 
 app.get("/api/", async (req, res) => {
   try {
-    let result = await Books.find({ isbooked: false });
+    let result = await Books.find({ isbooked: false }).sort({ _id: 1 });
     result = result.reverse();
 
     res.status(200).json(result);

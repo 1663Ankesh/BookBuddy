@@ -319,6 +319,10 @@ body {
 .bookdetails .booktitle span:first-of-type {
   font-weight: bold;
 }
+.bookdetailsparent .bookdetails div span {
+  font-size: 20px;
+}
+
 .bookownerdetails {
   margin: 20px 40px;
 }
@@ -718,6 +722,12 @@ body {
   margin-top: 20px;
 }
 
+.homepage .book-otherinfo {
+  font-weight: bold;
+}
+.homepage .book-otherinfo > div:not(:first-child) {
+  font-weight: 400;
+}
 .addbookbtn button {
   padding: 10px 20px;
   font-size: 16px;
@@ -944,7 +954,7 @@ body {
     font-size: 20px;
   }
   .bookbuttondiv {
-    width: 100%;
+    width: 80%;
   }
   .cannotclass {
     display: flex;
