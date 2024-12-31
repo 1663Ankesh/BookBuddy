@@ -11,7 +11,7 @@ const Footer = () => {
         <div>2021ugcs000@nitjsr.ac.in</div>
         <div>Contact: 0000000000</div>
       </div>
-      <div className="footer_2">Copyright {currentYear}</div>
+      <div className="footer_2">Copyright @ {currentYear}</div>
     </div>
   );
 };
